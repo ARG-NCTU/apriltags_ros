@@ -1,0 +1,32 @@
+<launch>
+
+<node pkg="apriltags_ros" type="unity_camera_info.py" name="unity_camera_info" output="screen"> 
+</node>
+
+  <node pkg="apriltags_ros" type="apriltag_detector_node" name="apriltag_detector_vrx" output="screen">
+    <!-- Remap topic required by the node to custom topics -->
+    <remap from="image_rect" to="/unity/camera_under" />
+    <remap from="camera_info" to="/unity/camera_info" />
+
+    <!-- Optional: Subscribe to the compressed stream-->
+    <param name="image_transport" type="str" value="compressed" />
+
+    <!-- Select the tag family: 16h5, 25h7, 25h9, 36h9, or 36h11(default) -->
+    <param name="tag_family" type="str" value="36h11" />
+
+    <!-- Enable projected optical measurements for more accurate tag transformations -->
+    <!-- This exists for backwards compatability and should be left true for new setups -->
+    <param name="projected_optics" type="bool" value="true" />
+
+    <!-- Describe the tags -->
+    <rosparam param="tag_descriptions">[
+      {id: 1, size: 0.32, frame_id: top_tag_1},
+      {id: 2, size: 0.32, frame_id: top_tag_2},
+      {id: 201, size: 0.16, frame_id: top_tag_201},
+      {id: 202, size: 0.16, frame_id: top_tag_202},
+      {id: 203, size: 0.16, frame_id: top_tag_203},
+      {id: 204, size: 0.16, frame_id: top_tag_204},]
+    </rosparam>
+  </node>
+	
+</launch>
